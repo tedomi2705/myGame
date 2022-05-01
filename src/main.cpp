@@ -6,6 +6,7 @@
 using namespace std;
 
 bool initSDL();
+void quitSDL();
 
 int main(int argc, char* argv[]) {
     if (!initSDL()) {
@@ -13,21 +14,26 @@ int main(int argc, char* argv[]) {
     } else {
         bool quit = false;
         bool mainMenu = true;
-        bool inGame=false;
+        bool inGame = false;
+        SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
         while (!quit) {
             SDL_Event e;
+            // SDL_RenderClear(gRenderer);
+            gBackground = IMG_LoadTexture(gRenderer, BACKGROUND_PATH);
+            SDL_RenderCopy(gRenderer, gBackground, 0, 0);
             while (SDL_PollEvent(&e) != 0) {
                 if (e.type == SDL_QUIT) {
                     quit = true;
                 }
             }
-            SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
-            SDL_RenderClear(gRenderer);
-            
+
+            SDL_RenderPresent(gRenderer);
         }
     }
+    quitSDL();
     return 0;
 }
+
 bool initSDL() {
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
         logError("Failed to init SDL", SDL_ERROR);
@@ -65,4 +71,10 @@ bool initSDL() {
         }
     }
     return true;
+}
+
+void quitSDL() {
+    SDL_DestroyTexture(gBackground);
+    SDL_DestroyRenderer(gRenderer);
+    SDL_DestroyWindow(gWindow);
 }
