@@ -27,7 +27,8 @@ int main(int argc, char* argv[]) {
                     quit = true;
                 }
             }          
-            SDL_RenderPresent(gRenderer);
+            SDL_RenderPresent(gRenderer);            
+            SDL_Delay(16.6666f);
         }
     }
     quitSDL();
