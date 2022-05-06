@@ -6,6 +6,7 @@
 using namespace std;
 
 bool initSDL();
+void loadCommonFont();
 void quitSDL();
 
 int main(int argc, char* argv[]) {
@@ -25,8 +26,7 @@ int main(int argc, char* argv[]) {
                 if (e.type == SDL_QUIT) {
                     quit = true;
                 }
-            }
-
+            }          
             SDL_RenderPresent(gRenderer);
         }
     }
@@ -70,7 +70,13 @@ bool initSDL() {
             }
         }
     }
+    loadCommonFont();
     return true;
+}
+
+void loadCommonFont() {
+    Arial = TTF_OpenFont("res/font/arial.ttf", 24);
+    // more font will be added
 }
 
 void quitSDL() {
