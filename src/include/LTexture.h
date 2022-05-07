@@ -5,9 +5,14 @@
 
 using namespace std;
 
+enum textureType { IMAGE, FONT };
+
 class LTexture {
    public:
+   
     LTexture(SDL_Renderer* _renderer);
+    LTexture(SDL_Renderer* _renderer, const string& path);
+    LTexture(SDL_Renderer* _renderer, const string& text, TTF_Font* font, SDL_Color textColor);
 
     ~LTexture();
 
@@ -15,9 +20,10 @@ class LTexture {
 
     bool loadFromRenderedText(string textureText, TTF_Font* gFont, SDL_Color textColor);
 
-    bool loadFromFile(string path);
+    bool loadFromFile(const string& path);
 
-    void render(int x, int y, SDL_Rect* clip = nullptr);
+    void render(const SDL_Rect& dst);
+    void render(const SDL_Rect& src,const SDL_Rect& dst);
 
     int getWidth();
 
@@ -26,8 +32,8 @@ class LTexture {
    private:
     SDL_Texture* mTexture;
     SDL_Renderer* renderer;
-    int mWidth;
-    int mHeight;
+    int textureWidth;
+    int textureHeight;
 };
 
 #endif  // !LTEXTURE_H_

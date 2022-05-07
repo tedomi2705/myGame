@@ -1,9 +1,39 @@
 #include "include/LTexture.h"
 using namespace std;
+/**
+ * @brief Construct a new LTexture::LTexture object
+ *
+ * @param _renderer renderer using
+ */
 LTexture::LTexture(SDL_Renderer* _renderer) : renderer(_renderer) {
     mTexture = nullptr;
-    mWidth = 0;
-    mHeight = 0;
+    textureWidth = 0;
+    textureHeight = 0;
+}
+/**
+ * @brief Construct a new LTexture::LTexture object that load an image
+ *
+ * @param _renderer renderer using
+ * @param path path to image
+ */
+LTexture::LTexture(SDL_Renderer* _renderer, const string& path) : renderer(_renderer) {
+    if (!loadFromFile(path)) {
+        logError("Error loading image: ", IMG_ERROR);
+    }
+}
+/**
+ * @brief Construct a new LTexture::LTexture object that load text
+ *
+ * @param _renderer renderer using
+ * @param text The text rendered
+ * @param font TTF_Font used
+ * @param textColor SDL_Color used
+ */
+LTexture::LTexture(SDL_Renderer* _renderer, const string& text, TTF_Font* font, SDL_Color textColor)
+    : renderer(_renderer) {
+    if (!loadFromRenderedText(text, font, textColor)) {
+        cerr << "Error constructing text";
+    }
 }
 
 LTexture::~LTexture() {
@@ -14,11 +44,18 @@ LTexture::~LTexture() {
 void LTexture::free() {
     if (mTexture != nullptr) {
         mTexture = nullptr;
-        mWidth = 0;
-        mHeight = 0;
+        textureWidth = 0;
+        textureHeight = 0;
     }
 }
-
+/**
+ * @brief Load text will be rendered
+ *
+ * @param textureText The text rendered
+ * @param font TTF_Font used
+ * @param textColor SDL_Color used
+ * @return load result
+ */
 bool LTexture::loadFromRenderedText(string textureText, TTF_Font* font, SDL_Color textColor) {
     free();
 
@@ -30,8 +67,8 @@ bool LTexture::loadFromRenderedText(string textureText, TTF_Font* font, SDL_Colo
         if (mTexture == NULL) {
             printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
         } else {
-            mWidth = textSurface->w;
-            mHeight = textSurface->h;
+            textureWidth = textSurface->w;
+            textureHeight = textSurface->h;
         }
 
         SDL_FreeSurface(textSurface);
@@ -40,29 +77,33 @@ bool LTexture::loadFromRenderedText(string textureText, TTF_Font* font, SDL_Colo
     return mTexture != NULL;
 }
 
-bool LTexture::loadFromFile(string path) {
+/**
+ * @brief load an image
+ *
+ * @param path Path to image
+ * @return Load result
+ *
+ */
+bool LTexture::loadFromFile(const string& path) {
     free();
     mTexture = IMG_LoadTexture(renderer, path.c_str());
 
     if (mTexture == nullptr) {
         logError("Can not load image.", IMG_ERROR);
     } else {
-        SDL_QueryTexture(mTexture, NULL, NULL, &mWidth, &mHeight);
+        SDL_QueryTexture(mTexture, NULL, NULL, &textureWidth, &textureHeight);
     }
     return mTexture != nullptr;
 }
 
-void LTexture::render(int x, int y, SDL_Rect* clip) {
-    SDL_Rect renderSpace = {x, y, mWidth, mHeight};
-
-    if (clip != nullptr) {
-        renderSpace.w = clip->w;
-        renderSpace.h = clip->h;
-    }
-
-    SDL_RenderCopy(renderer, mTexture, clip, &renderSpace);
+void LTexture::render(const SDL_Rect& dst) {
+    SDL_Rect src = {0, 0, textureWidth, textureHeight};
+    SDL_RenderCopy(renderer, mTexture, &src, &dst);
+}
+void LTexture::render(const SDL_Rect& src, const SDL_Rect& dst) {
+    SDL_RenderCopy(renderer, mTexture, &src, &dst);
 }
 
-int LTexture::getWidth() { return mWidth; }
+int LTexture::getWidth() { return textureWidth; }
 
-int LTexture::getHeight() { return mHeight; }
+int LTexture::getHeight() { return textureHeight; }
