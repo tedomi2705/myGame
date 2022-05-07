@@ -19,16 +19,14 @@ int main(int argc, char* argv[]) {
         SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
         while (!quit) {
             SDL_Event e;
-            // SDL_RenderClear(gRenderer);
-            gBackground = IMG_LoadTexture(gRenderer, BACKGROUND_PATH);
-            SDL_RenderCopy(gRenderer, gBackground, 0, 0);
+            SDL_RenderClear(gRenderer);
             while (SDL_PollEvent(&e) != 0) {
                 if (e.type == SDL_QUIT) {
                     quit = true;
                 }
-            }          
-            SDL_RenderPresent(gRenderer);            
-            SDL_Delay(16.6666f);
+            }
+            SDL_RenderPresent(gRenderer);
+            SDL_Delay(1000.0/FPS_LIMIT);
         }
     }
     quitSDL();
@@ -81,7 +79,6 @@ void loadCommonFont() {
 }
 
 void quitSDL() {
-    SDL_DestroyTexture(gBackground);
     SDL_DestroyRenderer(gRenderer);
     SDL_DestroyWindow(gWindow);
 }
