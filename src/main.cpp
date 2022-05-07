@@ -70,6 +70,7 @@ bool initSDL() {
         }
     }
     loadCommonFont();
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
     return true;
 }
 
