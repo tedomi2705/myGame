@@ -16,7 +16,7 @@ int main(int argc, char* argv[]) {
         bool quit = false;
         bool mainMenu = true;
         bool inGame = false;
-        SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+        SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
         while (!quit) {
             SDL_Event e;
             SDL_RenderClear(gRenderer);
@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
                 }
             }
             SDL_RenderPresent(gRenderer);
-            SDL_Delay(1000.0/FPS_LIMIT);
+            SDL_Delay(1000.0 / FPS_LIMIT);
         }
     }
     quitSDL();
