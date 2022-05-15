@@ -8,27 +8,40 @@ using namespace std;
 bool initSDL();
 void loadCommonFont();
 void quitSDL();
-
+enum Stage { MENU, OPTION_MENU, GAME_MODE, IN_GAME, GAME_OVER, QUIT };
 int main(int argc, char* argv[]) {
     if (!initSDL()) {
         cerr << "Error initialize!";
     } else {
-        bool quit = false;
-        bool mainMenu = true;
-        bool inGame = false;
+        SDL_Event e;
         SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
-        while (!quit) {
-            SDL_Event e;
+        Stage stage = MENU;
+        while (stage == MENU) {
+            /* code */
+        }
+        while (stage == GAME_MODE) {
+            /* code */
+        }
+        while (stage == OPTION_MENU) {
+            /* code */
+        }
+
+        while (stage == IN_GAME) {
             SDL_RenderClear(gRenderer);
             while (SDL_PollEvent(&e) != 0) {
                 if (e.type == SDL_QUIT) {
-                    quit = true;
+                    stage = QUIT;
                 }
             }
             SDL_RenderPresent(gRenderer);
             SDL_Delay(1000.0 / FPS_LIMIT);
         }
+
+        while (stage == GAME_OVER) {
+            /* code */
+        }
     }
+
     quitSDL();
     return 0;
 }
