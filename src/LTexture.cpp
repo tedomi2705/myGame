@@ -127,11 +127,11 @@ bool LTexture::loadFromFile(const string& path) {
 }
 
 void LTexture::render(const SDL_Rect& dst) {
-    SDL_Rect src = {0, 0, textureWidth, textureHeight};
-    SDL_RenderCopy(renderer, mTexture, &src, &dst);
+    SDL_Rect mask = {0, 0, textureWidth, textureHeight};
+    SDL_RenderCopy(renderer, mTexture, &mask, &dst);
 }
-void LTexture::render(const SDL_Rect& src, const SDL_Rect& dst) {
-    SDL_RenderCopy(renderer, mTexture, &src, &dst);
+void LTexture::render(const SDL_Rect& mask, const SDL_Rect& dst) {
+    SDL_RenderCopy(renderer, mTexture, &mask, &dst);
 }
 
 int LTexture::getWidth() { return textureWidth; }
