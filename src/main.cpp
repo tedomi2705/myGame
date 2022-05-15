@@ -22,13 +22,34 @@ int main(int argc, char* argv[]) {
         SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
         Stage stage = MENU;
         while (stage == MENU) {
-            /* code */
+            SDL_RenderClear(gRenderer);
+            while (SDL_PollEvent(&e) != 0) { 
+                if (e.type == SDL_QUIT) {
+                    stage = QUIT;
+                }
+            }
+            SDL_RenderPresent(gRenderer);
+            SDL_Delay(1000.0 / FPS_LIMIT);
         }
         while (stage == GAME_MODE) {
-            /* code */
+            SDL_RenderClear(gRenderer);
+            while (SDL_PollEvent(&e) != 0) { 
+                if (e.type == SDL_QUIT) {
+                    stage = QUIT;
+                }
+            }
+            SDL_RenderPresent(gRenderer);
+            SDL_Delay(1000.0 / FPS_LIMIT);
         }
         while (stage == OPTION_MENU) {
-            /* code */
+            SDL_RenderClear(gRenderer);
+            while (SDL_PollEvent(&e) != 0) { 
+                if (e.type == SDL_QUIT) {
+                    stage = QUIT;
+                }
+            }
+            SDL_RenderPresent(gRenderer);
+            SDL_Delay(1000.0 / FPS_LIMIT);
         }
 
         while (stage == IN_GAME) {
@@ -43,7 +64,14 @@ int main(int argc, char* argv[]) {
         }
 
         while (stage == GAME_OVER) {
-            /* code */
+            SDL_RenderClear(gRenderer);
+            while (SDL_PollEvent(&e) != 0) { 
+                if (e.type == SDL_QUIT) {
+                    stage = QUIT;
+                }
+            }
+            SDL_RenderPresent(gRenderer);
+            SDL_Delay(1000.0 / FPS_LIMIT);
         }
     }
 
