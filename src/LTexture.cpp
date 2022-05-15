@@ -2,6 +2,14 @@
 using namespace std;
 /**
  * @brief Construct a new LTexture::LTexture object
+ */
+LTexture::LTexture() {
+    mTexture = nullptr;
+    textureWidth = 0;
+    textureHeight = 0;
+}
+/**
+ * @brief Construct a new LTexture::LTexture object
  *
  * @param _renderer renderer using
  */
@@ -22,6 +30,16 @@ LTexture::LTexture(SDL_Renderer* _renderer, const string& path) : renderer(_rend
     }
 }
 /**
+ * @brief Construct a new LTexture::LTexture object that load an image
+ *
+ * @param path path to image
+ */
+LTexture::LTexture(const string& path) {
+    if (!loadFromFile(path)) {
+        logError("Error loading image: ", IMG_ERROR);
+    }
+}
+/**
  * @brief Construct a new LTexture::LTexture object that load text
  *
  * @param _renderer renderer using
@@ -31,6 +49,18 @@ LTexture::LTexture(SDL_Renderer* _renderer, const string& path) : renderer(_rend
  */
 LTexture::LTexture(SDL_Renderer* _renderer, const string& text, TTF_Font* font, SDL_Color textColor)
     : renderer(_renderer) {
+    if (!loadFromRenderedText(text, font, textColor)) {
+        cerr << "Error constructing text";
+    }
+}
+/**
+ * @brief Construct a new LTexture::LTexture object that load text
+ *
+ * @param text The text rendered
+ * @param font TTF_Font used
+ * @param textColor SDL_Color used
+ */
+LTexture::LTexture(const string& text, TTF_Font* font, SDL_Color textColor) {
     if (!loadFromRenderedText(text, font, textColor)) {
         cerr << "Error constructing text";
     }

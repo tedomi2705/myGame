@@ -9,10 +9,12 @@ enum textureType { IMAGE, FONT };
 
 class LTexture {
    public:
-   
+    LTexture();
     LTexture(SDL_Renderer* _renderer);
     LTexture(SDL_Renderer* _renderer, const string& path);
     LTexture(SDL_Renderer* _renderer, const string& text, TTF_Font* font, SDL_Color textColor);
+    LTexture(const string& path);
+    LTexture(const string& text, TTF_Font* font, SDL_Color textColor);
 
     ~LTexture();
 
@@ -25,7 +27,7 @@ class LTexture {
     bool setRenderer(SDL_Renderer* _renderer);
 
     void render(const SDL_Rect& dst);
-    void render(const SDL_Rect& src,const SDL_Rect& dst);
+    void render(const SDL_Rect& src, const SDL_Rect& dst);
 
     int getWidth();
 
