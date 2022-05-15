@@ -6,7 +6,7 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
-
+#include "ini.h"
 
 #define SDL_ERROR 1
 #define IMG_ERROR 2

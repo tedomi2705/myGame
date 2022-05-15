@@ -4,6 +4,7 @@
 #include "include/properties.h"
 
 using namespace std;
+using namespace mINI;
 
 bool initSDL();
 void loadCommonFont();
@@ -13,6 +14,10 @@ int main(int argc, char* argv[]) {
     if (!initSDL()) {
         cerr << "Error initialize!";
     } else {
+        INIFile settingFile("setting.ini");
+        INIStructure setting;
+        settingFile.read(setting);
+
         SDL_Event e;
         SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
         Stage stage = MENU;
