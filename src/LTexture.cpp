@@ -107,3 +107,12 @@ void LTexture::render(const SDL_Rect& src, const SDL_Rect& dst) {
 int LTexture::getWidth() { return textureWidth; }
 
 int LTexture::getHeight() { return textureHeight; }
+
+bool LTexture::setRenderer(SDL_Renderer* _renderer) {
+    renderer = _renderer;
+    if (!renderer) {
+        cerr << "Unable to set SDL_Renderer";
+        return false;
+    } else
+        return true;
+}

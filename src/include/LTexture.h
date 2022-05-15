@@ -22,6 +22,8 @@ class LTexture {
 
     bool loadFromFile(const string& path);
 
+    bool setRenderer(SDL_Renderer* _renderer);
+
     void render(const SDL_Rect& dst);
     void render(const SDL_Rect& src,const SDL_Rect& dst);
 
