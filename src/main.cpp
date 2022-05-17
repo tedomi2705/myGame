@@ -20,57 +20,68 @@ int main(int argc, char* argv[]) {
         SDL_Event e;
         SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
         Stage stage = MENU;
-        while (stage == MENU) {
-            SDL_RenderClear(gRenderer);
-            while (SDL_PollEvent(&e) != 0) { 
-                if (e.type == SDL_QUIT) {
-                    stage = QUIT;
+        while (stage != QUIT) {
+            if (stage == MENU) {
+                LTexture background(gRenderer, setting["path"]["menu"]);
+                while (stage == MENU) {
+                    SDL_RenderClear(gRenderer);
+                    background.render({0, 0, WINDOW_WIDTH, WINDOW_HEIGHT});
+                    while (SDL_PollEvent(&e) != 0) {
+                        if (e.type == SDL_QUIT) {
+                            stage = QUIT;
+                        }
+                    }
+                    SDL_RenderPresent(gRenderer);
                 }
             }
-            SDL_RenderPresent(gRenderer);
-            SDL_Delay(1000.0 / FPS_LIMIT);
-        }
-        while (stage == GAME_MODE) {
-            SDL_RenderClear(gRenderer);
-            while (SDL_PollEvent(&e) != 0) { 
-                if (e.type == SDL_QUIT) {
-                    stage = QUIT;
+            if (stage == OPTION_MENU) {
+                /* code */
+                while (stage == OPTION_MENU) {
+                    SDL_RenderClear(gRenderer);
+                    while (SDL_PollEvent(&e) != 0) {
+                        if (e.type == SDL_QUIT) {
+                            stage = QUIT;
+                        }
+                    }
+                    SDL_RenderPresent(gRenderer);
                 }
             }
-            SDL_RenderPresent(gRenderer);
-            SDL_Delay(1000.0 / FPS_LIMIT);
-        }
-        while (stage == OPTION_MENU) {
-            SDL_RenderClear(gRenderer);
-            while (SDL_PollEvent(&e) != 0) { 
-                if (e.type == SDL_QUIT) {
-                    stage = QUIT;
+            if (stage == GAME_MODE) {
+                /* code */
+                while (stage == GAME_MODE) {
+                    SDL_RenderClear(gRenderer);
+                    while (SDL_PollEvent(&e) != 0) {
+                        if (e.type == SDL_QUIT) {
+                            stage = QUIT;
+                        }
+                    }
+                    SDL_RenderPresent(gRenderer);
                 }
             }
-            SDL_RenderPresent(gRenderer);
-            SDL_Delay(1000.0 / FPS_LIMIT);
-        }
-
-        while (stage == IN_GAME) {
-            SDL_RenderClear(gRenderer);
-            while (SDL_PollEvent(&e) != 0) {
-                if (e.type == SDL_QUIT) {
-                    stage = QUIT;
+            if (stage == IN_GAME) {
+                /* code */
+                while (stage == IN_GAME) {
+                    SDL_RenderClear(gRenderer);
+                    while (SDL_PollEvent(&e) != 0) {
+                        if (e.type == SDL_QUIT) {
+                            stage = QUIT;
+                        }
+                    }
+                    SDL_RenderPresent(gRenderer);
                 }
             }
-            SDL_RenderPresent(gRenderer);
-            SDL_Delay(1000.0 / FPS_LIMIT);
-        }
-
-        while (stage == GAME_OVER) {
-            SDL_RenderClear(gRenderer);
-            while (SDL_PollEvent(&e) != 0) { 
-                if (e.type == SDL_QUIT) {
-                    stage = QUIT;
+            if (stage == GAME_OVER) {
+                /* code */
+                while (stage == GAME_OVER) {
+                    SDL_RenderClear(gRenderer);
+                    while (SDL_PollEvent(&e) != 0) {
+                        if (e.type == SDL_QUIT) {
+                            stage = QUIT;
+                        }
+                    }
+                    SDL_RenderPresent(gRenderer);
                 }
             }
-            SDL_RenderPresent(gRenderer);
-            SDL_Delay(1000.0 / FPS_LIMIT);
         }
     }
 
