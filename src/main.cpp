@@ -1,4 +1,3 @@
-#include "include/LTexture.h"
 #include "include/base.h"
 #include "include/elements.h"
 #include "include/properties.h"
