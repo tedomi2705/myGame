@@ -33,11 +33,13 @@ class LTexture {
 
     int getHeight();
 
-   private:
-    SDL_Texture* mTexture;
-    SDL_Renderer* renderer;
+   protected:
     int textureWidth;
     int textureHeight;
+    SDL_Renderer* renderer;
+    SDL_Texture* mTexture;
+
+   private:
 };
 
 #endif  // !LTEXTURE_H_

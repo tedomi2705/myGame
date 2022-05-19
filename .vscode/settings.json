@@ -59,5 +59,6 @@
             "binaryPath": "e:\\mygame\\bin\\debug\\loldodge.exe",
             "binaryArgs": []
         }
-    ]
+    ],
+    "cmake.configureOnOpen": true
 }
