@@ -1,4 +1,5 @@
 #include "include/base.h"
+#include "include/button.h"
 #include "include/elements.h"
 #include "include/properties.h"
 
@@ -23,14 +24,36 @@ int main(int argc, char* argv[]) {
         while (stage != QUIT) {
             if (stage == MENU) {
                 LTexture background(gRenderer, setting["path"]["menu"]);
+                LTexture yasuo(gRenderer, setting["path"]["yasuo"]);
+                Button start(gRenderer, setting["path"]["startButton"]);
+                Button option(gRenderer, setting["path"]["optionButton"]);
                 while (stage == MENU) {
                     SDL_RenderClear(gRenderer);
                     background.render({0, 0, WINDOW_WIDTH, WINDOW_HEIGHT});
+                    yasuo.render({417, 88, 592, 462});
                     while (SDL_PollEvent(&e) != 0) {
                         if (e.type == SDL_QUIT) {
                             stage = QUIT;
                         }
+                        if (e.type == SDL_MOUSEBUTTONDOWN) {
+                            if (start.onHover()) {
+                                stage = GAME_MODE;
+                            }
+                            if (option.onHover()) {
+                                stage = OPTION_MENU;
+                            }
+                        }
                     }
+                    if (!start.onHover())
+                        start.setRect(START_X, START_Y, 300, 60);
+                    else
+                        start.setRect(START_X - 20, START_Y, 360, 72);
+                    if (!option.onHover())
+                        option.setRect(OPTION_X, OPTION_Y, 300, 60);
+                    else
+                        option.setRect(OPTION_X - 20, OPTION_Y, 360, 72);
+                    start.render();
+                    option.render();
                     SDL_RenderPresent(gRenderer);
                 }
             }
