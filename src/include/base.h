@@ -7,6 +7,7 @@
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
 #include "LTexture.h"
+#include "music.h"
 #include "ini.h"
 
 #define SDL_ERROR 1

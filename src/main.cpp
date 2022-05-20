@@ -22,6 +22,8 @@ int main(int argc, char* argv[]) {
         SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
         Stage stage = MENU;
         while (stage != QUIT) {
+            Music BGM(setting["path"]["menuBGM"]);
+            BGM.playMusic(-1);
             if (stage == MENU) {
                 LTexture background(gRenderer, setting["path"]["menu"]);
                 LTexture yasuo(gRenderer, setting["path"]["yasuo"]);
