@@ -238,7 +238,7 @@ bool initSDL() {
 }
 
 void loadCommonFont() {
-    Arial = TTF_OpenFont("res/font/arial.ttf", 24);
+    Arial = TTF_OpenFont("res/font/arial.ttf", 150);
     // more font will be added
 }
 

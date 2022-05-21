@@ -89,7 +89,7 @@ void LTexture::free() {
 bool LTexture::loadFromRenderedText(string textureText, TTF_Font* font, SDL_Color textColor) {
     free();
 
-    SDL_Surface* textSurface = TTF_RenderText_Solid(font, textureText.c_str(), textColor);
+    SDL_Surface* textSurface = TTF_RenderText_Blended(font, textureText.c_str(), textColor);
     if (textSurface == NULL) {
         printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
     } else {
