@@ -66,6 +66,7 @@ int main(int argc, char* argv[]) {
                     SDL_RenderPresent(gRenderer);
                 }
             }
+            // TODO: Option menu
             if (stage == OPTION_MENU) {
                 /* code */
                 clog << "Option screen" << endl;
@@ -153,6 +154,7 @@ int main(int argc, char* argv[]) {
                     SDL_RenderPresent(gRenderer);
                 }
             }
+            // TODO: Game mode select
             if (stage == GAME_MODE) {
                 /* code */
                 while (stage == GAME_MODE) {
@@ -165,6 +167,7 @@ int main(int argc, char* argv[]) {
                     SDL_RenderPresent(gRenderer);
                 }
             }
+            // TODO: In game
             if (stage == IN_GAME) {
                 /* code */
                 while (stage == IN_GAME) {
@@ -177,6 +180,7 @@ int main(int argc, char* argv[]) {
                     SDL_RenderPresent(gRenderer);
                 }
             }
+            // TODO: Game over screen
             if (stage == GAME_OVER) {
                 /* code */
                 while (stage == GAME_OVER) {
