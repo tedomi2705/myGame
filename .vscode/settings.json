@@ -50,7 +50,9 @@
         "cfloat": "cpp",
         "climits": "cpp",
         "ios": "cpp",
-        "queue": "cpp"
+        "queue": "cpp",
+        "fstream": "cpp",
+        "sstream": "cpp"
     },
     "C_Cpp.errorSquiggles": "Enabled",
     "makefile.launchConfigurations": [
