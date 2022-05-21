@@ -73,6 +73,7 @@ LTexture::~LTexture() {
 
 void LTexture::free() {
     if (mTexture != nullptr) {
+        SDL_DestroyTexture(mTexture);
         mTexture = nullptr;
         textureWidth = 0;
         textureHeight = 0;

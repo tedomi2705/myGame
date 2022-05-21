@@ -37,7 +37,7 @@ class LTexture {
     int textureWidth;
     int textureHeight;
     SDL_Renderer* renderer;
-    SDL_Texture* mTexture;
+    SDL_Texture* mTexture = nullptr;
 
    private:
 };
