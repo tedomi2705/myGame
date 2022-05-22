@@ -15,14 +15,12 @@ include_directories(
 file(GLOB game_SRC
     "${PROJECT_SOURCE_DIR}/src/include/*.h"
     "${PROJECT_SOURCE_DIR}/src/*.cpp"
-)
-    
-
+)    
 
 if (WIN32)
-    set(SDL2_INCLUDE_DIR "C:/SDL2-2.0.20/x86_64-w64-mingw32/include/SDL2")
-    set(SDL2_LIBRARY_DIR "C:/SDL2-2.0.20/x86_64-w64-mingw32/lib")
-    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -mwindows")
+    set(SDL2_INCLUDE_DIR "C:/SDL2-2.0.22/x86_64-w64-mingw32/include/SDL2")
+    set(SDL2_LIBRARY_DIR "C:/SDL2-2.0.22/x86_64-w64-mingw32/lib")
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -mwindows -static-libgcc -static-libstdc++")
     include_directories(${SDL2_INCLUDE_DIR})
     link_directories(${SDL2_LIBRARY_DIR})
 else ()
@@ -43,6 +41,13 @@ target_link_libraries(loldodge
 
 # install(DIRECTORY res DESTINATION res)
 file(COPY res setting.ini DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+if (WIN32)
+    file(GLOB lib
+        "${SDL2_LIBRARY_DIR}/../bin/*.dll"
+        "${SDL2_LIBRARY_DIR}/../bin/*.txt"
+    )    
+    file(COPY ${lib} "C:/mingw64/bin/libwinpthread-1.dll" DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+endif ()
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 include(CPack)
