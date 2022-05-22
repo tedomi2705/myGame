@@ -9,7 +9,7 @@ using namespace mINI;
 bool initSDL();
 void loadCommonFont();
 void quitSDL();
-enum Stage { MENU, OPTION_MENU, GAME_MODE, IN_GAME, GAME_OVER, QUIT };
+enum Stage { MENU, OPTION_MENU, GAME_MODE, IN_GAME, GAME_OVER, QUIT = -1 };
 int main(int argc, char* argv[]) {
     if (!initSDL()) {
         cerr << "Error initialize!";
@@ -22,16 +22,18 @@ int main(int argc, char* argv[]) {
         SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
 
         Stage stage = MENU;
-        Music BGM(setting["path"]["menuBGM"]);
-        BGM.playMusic(-1);
+        Music BGM;
         // NOTE: Load setting
         bool showGUI = setting["setting"]["ShowGUI"][0] - '0';
         char skillBinding = setting["keybinding"]["skill"][0];
         char flashBinding = setting["keybinding"]["flash"][0];
-        Music BGM(setting["path"]["menuBGM"]);
-        BGM.playMusic(-1);
+        int skill = stoi(setting["setting"]["skill"]);
+        int difficult = stoi(setting["setting"]["difficult"]);
         while (stage != QUIT) {
             if (stage == MENU) {
+                clog << "Menu screen" << endl;
+                BGM.loadMusic(setting["path"]["menuBGM"]);
+                BGM.playMusic(-1);
                 LTexture background(gRenderer, setting["path"]["menu"]);
                 LTexture yasuo(gRenderer, setting["path"]["yasuo"]);
                 Button start(gRenderer, setting["path"]["startButton"]);
@@ -157,13 +159,110 @@ int main(int argc, char* argv[]) {
             // TODO: Game mode select
             if (stage == GAME_MODE) {
                 /* code */
+                clog << "Game mode screen" << endl;
+                LTexture background(gRenderer, setting["path"]["menu"]);
+
+                Button menu(gRenderer, setting["path"]["menuButton"]);
+                menu.setRect(51, 29, 277, 71);
+
+                Button play(gRenderer, setting["path"]["playButton"]);
+                play.setRect(360, 29, 277, 71);
+
+                Button skill1(gRenderer, setting["path"]["skill1"]);
+                skill1.setRect(149, 127, 185, 185);
+
+                Button skill2(gRenderer, setting["path"]["skill2"]);
+                skill2.setRect(334, 127, 185, 185);
+
+                Button skill3(gRenderer, setting["path"]["skill3"]);
+                skill3.setRect(149, 312, 185, 185);
+
+                Button skill4(gRenderer, setting["path"]["skill4"]);
+                skill4.setRect(334, 312, 185, 185);
+
+                Button easy(gRenderer, setting["path"]["easy"]);
+                easy.setRect(763, 134, 161, 73);
+                Button medium(gRenderer, setting["path"]["medium"]);
+                medium.setRect(763, 252, 161, 73);
+                Button hard(gRenderer, setting["path"]["hard"]);
+                hard.setRect(763, 370, 161, 73);
+
+                SDL_Rect skillFrameLocation[4] = {{149, 127, 185, 185},
+                                                  {334, 127, 185, 185},
+                                                  {149, 312, 185, 185},
+                                                  {334, 312, 185, 185}};
+                LTexture skillFrame(gRenderer, setting["path"]["frame"]);
+
+                SDL_Rect arrowLocation[4] = {{705, 155, 35, 32},
+                                             {705, 273, 35, 32},
+                                             {705, 391, 35, 32}};
+                LTexture arrow(gRenderer, setting["path"]["arrow"]);
+
                 while (stage == GAME_MODE) {
                     SDL_RenderClear(gRenderer);
                     while (SDL_PollEvent(&e) != 0) {
                         if (e.type == SDL_QUIT) {
                             stage = QUIT;
                         }
+                        if (e.key.keysym.sym == SDLK_ESCAPE) {
+                            stage = MENU;
+                        };
+                        if (e.type == SDL_MOUSEBUTTONDOWN) {
+                            if (menu.onHover()) {
+                                stage = MENU;
+                            }
+                            if (play.onHover()) {
+                                stage = IN_GAME;
+                            }
+                            if (skill1.onHover()) {
+                                skill = 1;
+                                setting["setting"]["skill"] = "1";
+                                settingFile.write(setting);
+                            }
+                            if (skill2.onHover()) {
+                                skill = 2;
+                                setting["setting"]["skill"] = "2";
+                                settingFile.write(setting);
+                            }
+                            if (skill3.onHover()) {
+                                skill = 3;
+                                setting["setting"]["skill"] = "3";
+                                settingFile.write(setting);
+                            }
+                            if (skill4.onHover()) {
+                                skill = 4;
+                                setting["setting"]["skill"] = "4";
+                                settingFile.write(setting);
+                            }
+                            if (easy.onHover()) {
+                                difficult = 1;
+                                setting["setting"]["difficult"] = "1";
+                                settingFile.write(setting);
+                            }
+                            if (medium.onHover()) {
+                                difficult = 2;
+                                setting["setting"]["difficult"] = "2";
+                                settingFile.write(setting);
+                            }
+                            if (hard.onHover()) {
+                                difficult = 3;
+                                setting["setting"]["difficult"] = "3";
+                                settingFile.write(setting);
+                            }
+                        }
                     }
+                    background.render({0, 0, WINDOW_WIDTH, WINDOW_HEIGHT});
+                    menu.render();
+                    play.render();
+                    skill1.render();
+                    skill2.render();
+                    skill3.render();
+                    skill4.render();
+                    skillFrame.render(skillFrameLocation[skill - 1]);
+                    arrow.render(arrowLocation[difficult - 1]);
+                    easy.render();
+                    medium.render();
+                    hard.render();
                     SDL_RenderPresent(gRenderer);
                 }
             }
