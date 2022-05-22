@@ -15,11 +15,26 @@ bool Music::loadMusic(string path) {
 }
 
 bool Music::playMusic(int loopTimes = 0) {
-    if (Mix_PlayMusic(music, loopTimes)==-1) {
+    if (Mix_PlayMusic(music, loopTimes) == -1) {
         logError("Error playing music", MIX_ERROR);
         return false;
     }
     return true;
 }
+
+bool Music::isPlaying() {
+    if (!Mix_PlayingMusic()) return false;
+    return true;
+}
+
+bool Music::isPaused() {
+    if (Mix_PausedMusic()) return true;
+    return false;
+}
+void Music::pause() { Mix_PauseMusic(); }
+
+void Music::resume() { Mix_ResumeMusic(); }
+
+void Music::stop() { Mix_HaltMusic(); }
 
 Music::~Music() { Mix_FreeMusic(music); }

@@ -13,6 +13,11 @@ class Music {
     Music(string path);
     bool playMusic(int loopTimes);
     bool loadMusic(string path);
+    bool isPlaying();
+    bool isPaused();
+    void pause();
+    void resume();
+    void stop();
     ~Music();
 };
 
