@@ -1,3 +1,5 @@
+#ifndef ELEMENT_H
+#define ELEMENT_H
 
 // main window
 SDL_Window* gWindow = nullptr;
@@ -14,3 +16,6 @@ const int START_Y=120;
 
 const int OPTION_X=START_X;
 const int OPTION_Y=START_Y+100;
+
+
+#endif

@@ -1,5 +1,6 @@
 #include "include/base.h"
 #include "include/button.h"
+#include "include/character.h"
 #include "include/elements.h"
 #include "include/properties.h"
 
@@ -269,13 +270,30 @@ int main(int argc, char* argv[]) {
             // TODO: In game
             if (stage == IN_GAME) {
                 /* code */
+                Character jinx(gRenderer, setting["path"]["sprite"]);
+                LTexture background(gRenderer, setting["path"]["background"]);
+                BGM.loadMusic(setting["path"]["gameBGM"]);
+                BGM.playMusic(-1);
                 while (stage == IN_GAME) {
                     SDL_RenderClear(gRenderer);
                     while (SDL_PollEvent(&e) != 0) {
                         if (e.type == SDL_QUIT) {
                             stage = QUIT;
                         }
+                        if (e.type == SDL_KEYDOWN) {
+                            if (e.key.keysym.sym == SDLK_ESCAPE) {
+                                stage = MENU;
+                            };
+                        }
+                        if (e.type == SDL_MOUSEBUTTONDOWN) {
+                            int x;
+                            int y;
+                            SDL_GetMouseState(&x, &y);
+                            jinx.move(x, y);
+                        }
                     }
+                    background.render({0, 0, WINDOW_WIDTH, WINDOW_HEIGHT});
+                    jinx.render();
                     SDL_RenderPresent(gRenderer);
                 }
             }
