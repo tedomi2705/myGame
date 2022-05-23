@@ -5,17 +5,15 @@
 SDL_Window* gWindow = nullptr;
 SDL_Renderer* gRenderer = nullptr;
 
-
-
 // fonts
 TTF_Font* Arial = nullptr;
 
 // const
-const int START_X=0;
-const int START_Y=120;
-
-const int OPTION_X=START_X;
-const int OPTION_Y=START_Y+100;
-
+const int START_X = 0;
+const int START_Y = 120;
+const int OPTION_X = START_X;
+const int OPTION_Y = START_Y + 100;
+const int FPS = 60;
+const int DELAY_TIME = 1000 / FPS;
 
 #endif

@@ -5,19 +5,26 @@
 
 class Character : public LTexture {
    private:
-    int x = 512;
-    int y = 288;
+    double x = 512;
+    double y = 288;
     int w = 128;
     int h = 128;
-    int destX=x;
-    int destY=y;
+    int i = 0;
+    double j = 0;
+    double destX = x;
+    double destY = y;
+    double speed = 2;
     vector<vector<SDL_Rect>> spriteNum;
+
    public:
     Character(/* args */);
     Character(SDL_Renderer* _renderer, const string& path);
     void render();
     void initSprite();
-    void move(int x, int y);
+    void flash(int x, int y);
+    void setDestination(int x, int y);
+    void setSpeed(int n);
+    void move();
     int getX();
     int getY();
     int getW();
