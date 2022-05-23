@@ -324,13 +324,72 @@ int main(int argc, char* argv[]) {
             // TODO: Game over screen
             if (stage == GAME_OVER) {
                 /* code */
+                LTexture background(gRenderer, setting["path"]["highscore"]);
+                Button menu(gRenderer, setting["path"]["menuButton"]);
+                LTexture scoreText(gRenderer, to_string(score), Arial, {255, 255, 255});
+                LTexture nameInputTexture(gRenderer, "NoName", Arial, {255, 255, 255});
+                menu.setRect(55, 486, 277, 71);
+                Button restart(gRenderer, setting["path"]["restartButton"]);
+                string nameInput;
+                string composition;
+                Sint32 cursor;
+                Sint32 selection_len;
+                SDL_Rect inputRect = {313, 237, 398, 102};
+                Button textInput(gRenderer);
+                textInput.setRect(inputRect);
+                restart.setRect(693, 486, 277, 71);
+                SDL_SetTextInputRect(&inputRect);
                 while (stage == GAME_OVER) {
                     SDL_RenderClear(gRenderer);
                     while (SDL_PollEvent(&e) != 0) {
-                        if (e.type == SDL_QUIT) {
-                            stage = QUIT;
+                        switch (e.type) {
+                            case SDL_QUIT:
+                                stage = QUIT;
+                                break;
+                            case SDL_MOUSEBUTTONDOWN:
+                                if (menu.onHover()) {
+                                    stage = MENU;
+                                }
+                                if (restart.onHover()) {
+                                    stage = IN_GAME;
+                                }
+                                if (textInput.onHover())
+                                    SDL_StartTextInput();
+                                else
+                                    SDL_StopTextInput();
+                            case SDL_TEXTINPUT:
+                                /* Add new text onto the end of our text */
+                                nameInput += e.text.text;
+                                nameInputTexture.loadFromRenderedText(string(nameInput), Arial,
+                                                                      {255, 255, 255});
+                                break;
+                            case SDL_TEXTEDITING:
+                                /*
+                                Update the composition text.
+                                Update the cursor position.
+                                Update the selection length (if any).
+                                */
+                                composition = e.edit.text;
+                                cursor = e.edit.start;
+                                selection_len = e.edit.length;
+                                // nameInputText.loadFromRenderedText(string(composition), Arial,
+                                //                                    {255, 255, 255});
+                                break;
+                            case SDL_KEYDOWN:
+                                SDL_StartTextInput();
+                            default:
+                                break;
                         }
                     }
+                    background.render({0, 0, WINDOW_WIDTH, WINDOW_HEIGHT});
+                    scoreText.render({783 - scoreText.getWidth() / 6,
+                                      115 - scoreText.getHeight() / 6, scoreText.getWidth() / 3,
+                                      scoreText.getHeight() / 3});
+                    menu.render();
+                    nameInputTexture.render({inputRect.x, inputRect.y,
+                                             nameInputTexture.getWidth() / 3,
+                                             nameInputTexture.getHeight() / 3});
+                    restart.render();
                     SDL_RenderPresent(gRenderer);
                 }
             }
