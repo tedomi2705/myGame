@@ -134,7 +134,7 @@ int main(int argc, char* argv[]) {
                             if (flash.onHover()) {
                                 flashBinding = e.key.keysym.sym;
                                 flashKeyString[0] = toupper(flashBinding);
-                                setting["keybinding"]["flash"][0] = skillBinding;
+                                setting["keybinding"]["flash"][0] = flashBinding;
                                 flashKey.loadFromRenderedText(flashKeyString, Arial,
                                                               {0xff, 0xff, 0xff});
                                 settingFile.write(setting);
