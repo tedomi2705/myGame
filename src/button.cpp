@@ -40,3 +40,9 @@ void Button::setRect(int x, int y, int w, int h) {
     this->w = w;
     this->h = h;
 }
+void Button::setRect(const SDL_Rect &rect) {
+    this->x = rect.x;
+    this->y = rect.y;
+    this->w = rect.w;
+    this->h = rect.h;
+}

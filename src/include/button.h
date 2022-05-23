@@ -14,6 +14,7 @@ class Button : public LTexture {
     int x, y, w, h;
     bool useEvent(SDL_Event*);
     void setRect(int, int, int, int);
+    void setRect(const SDL_Rect& );
     bool onHover();
     void render();
 
