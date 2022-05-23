@@ -30,6 +30,7 @@ int main(int argc, char* argv[]) {
         char flashBinding = setting["keybinding"]["flash"][0];
         int skill = stoi(setting["setting"]["skill"]);
         int difficult = stoi(setting["setting"]["difficult"]);
+        int score;
         while (stage != QUIT) {
             if (stage == MENU) {
                 clog << "Menu screen" << endl;
@@ -71,7 +72,6 @@ int main(int argc, char* argv[]) {
             }
             // TODO: Option menu
             if (stage == OPTION_MENU) {
-                /* code */
                 clog << "Option screen" << endl;
                 LTexture background(gRenderer, setting["path"]["menu"]);
                 LTexture text(gRenderer, "CHANGE KEY BINDING: ", Arial, {0xff, 0xff, 0xff});
@@ -269,12 +269,17 @@ int main(int argc, char* argv[]) {
             }
             // TODO: In game
             if (stage == IN_GAME) {
-                /* code */
+                // FPS limit
+                Uint32 frameStart;
+                Uint32 frameTime;
+                score = 0;
                 Character jinx(gRenderer, setting["path"]["sprite"]);
                 LTexture background(gRenderer, setting["path"]["background"]);
+                LTexture scoreText(gRenderer, to_string(score), Arial, {255, 255, 255});
                 BGM.loadMusic(setting["path"]["gameBGM"]);
                 BGM.playMusic(-1);
                 while (stage == IN_GAME) {
+                    frameStart = SDL_GetTicks();
                     SDL_RenderClear(gRenderer);
                     while (SDL_PollEvent(&e) != 0) {
                         if (e.type == SDL_QUIT) {
@@ -284,17 +289,36 @@ int main(int argc, char* argv[]) {
                             if (e.key.keysym.sym == SDLK_ESCAPE) {
                                 stage = MENU;
                             };
+                            if (e.key.keysym.sym == 'p') {
+                                stage = GAME_OVER;
+                            };
+                            if (e.key.keysym.sym == flashBinding) {
+                                int x;
+                                int y;
+                                SDL_GetMouseState(&x, &y);
+                                jinx.flash(x, y);
+                            };
                         }
                         if (e.type == SDL_MOUSEBUTTONDOWN) {
                             int x;
                             int y;
                             SDL_GetMouseState(&x, &y);
-                            jinx.move(x, y);
+                            jinx.setDestination(x, y);
                         }
                     }
                     background.render({0, 0, WINDOW_WIDTH, WINDOW_HEIGHT});
+                    jinx.move();
                     jinx.render();
+                    scoreText.render({512 - scoreText.getWidth() / 6,
+                                      50 - scoreText.getHeight() / 6, scoreText.getWidth() / 3,
+                                      scoreText.getHeight() / 3});
+                    score++;
+                    scoreText.loadFromRenderedText(to_string(score), Arial, {255, 255, 255});
                     SDL_RenderPresent(gRenderer);
+                    frameTime = SDL_GetTicks() - frameStart;
+                    if (frameTime < DELAY_TIME) {
+                        SDL_Delay(DELAY_TIME - frameTime);
+                    }
                 }
             }
             // TODO: Game over screen
