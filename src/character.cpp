@@ -13,13 +13,15 @@ Character::Character(SDL_Renderer* _renderer, const string& path) : LTexture(_re
     int spriteHNum = spriteHeight / SPRITE_SIZE;
     // vector<vector<SDL_Rect>> spriteNum(spriteWNum, vector<SDL_Rect>(spriteHNum));
 
-    clog << spriteWNum << " " << spriteHNum;
     for (int j = 0; j < spriteHNum; j++) {
         spriteNum.push_back(vector<SDL_Rect>());
         for (int i = 0; i < spriteWNum; i++) {
             spriteNum[j].push_back({SPRITE_SIZE * i, SPRITE_SIZE * j, SPRITE_SIZE, SPRITE_SIZE});
         }
     }
+    hitbox.x = x - w / 2;
+    hitbox.y = y - w / 2;
+    hitbox.r = w / 3;
 }
 
 void Character::initSprite() {}
@@ -40,8 +42,9 @@ void Character::move() {
     if (distance > 2) {
         this->x -= (x - destX) * speed / distance;
         this->y -= (y - destY) * speed / distance;
-        j > 22 ? j = 0 : j += 0.5;
+        j > 22 ? j = 0 : j += 0.5;  // Animation
     }
+    // Choose sprite:
     double cosx = -(x - destX) / sqrt((x - destX) * (x - destX) + (y - destY) * (y - destY));
     if (cosx > cos(M_PI / 8))
         i = 4;
@@ -62,6 +65,8 @@ void Character::move() {
             i = 5;
     else
         i = 3;
+    hitbox.x = this->x;
+    hitbox.y = this->y;
 }
 void Character::flash(int x, int y) {
     int distance = sqrt((this->x - x) * (this->x - x) + (this->y - y) * (this->y - y));

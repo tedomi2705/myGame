@@ -41,7 +41,7 @@ target_link_libraries(loldodge
 )
 
 # install(DIRECTORY res DESTINATION res)
-file(COPY res setting.ini DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+file(COPY res setting.ini highscore DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 if (WIN32)
     file(GLOB lib
         "${SDL2_LIBRARY_DIR}/../bin/*.dll"

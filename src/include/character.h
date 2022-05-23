@@ -2,6 +2,7 @@
 #define CHAR_H
 
 #include "base.h"
+#include "circle.h"
 
 class Character : public LTexture {
    private:
@@ -13,10 +14,10 @@ class Character : public LTexture {
     double j = 0;
     double destX = x;
     double destY = y;
-    double speed = 2;
+    double speed = 3.4;
     vector<vector<SDL_Rect>> spriteNum;
-
    public:
+    Circle hitbox;
     Character(/* args */);
     Character(SDL_Renderer* _renderer, const string& path);
     void render();
@@ -29,6 +30,7 @@ class Character : public LTexture {
     int getY();
     int getW();
     int getH();
+    Circle getHitbox();
     ~Character();
 };
 
